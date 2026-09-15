@@ -102,7 +102,7 @@ is_whitespace(char c)
 
 tokenlib::FilePos::FilePos()
 {
-    this->line = 0;
+    this->line = 1;
     this->col = 1;
 }
 
@@ -140,7 +140,7 @@ find_next_token(std::string::const_iterator it,
     }
 
     FilePos starting_pos = pos;
-    
+
     pos.update_file_pos(*it);
 
     TokenType start_type = char_to_token_type(*it);

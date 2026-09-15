@@ -11,7 +11,10 @@ MAIN_FILE=main.cpp
 
 MAIN_OBJ=main.opp
 
-ARGS=1234+4738*8392
+ARGS=
+
+STDIN=tests/testcases/test.txt
+STDOUT=tests/testoutput/out.txt
 
 LOCAL_LIB_SOURCE_FILES=tokenlib.cpp
 
@@ -35,7 +38,7 @@ ${EXECUTABLE}: ${OBJECT_FILES}
 build: ${EXECUTABLE}
 
 run: ${EXECUTABLE}
-	${EXECUTABLE} ${ARGS}
+	${EXECUTABLE} ${ARGS} < ${STDIN} > ${STDOUT}
 
 clean:
 	rm ${EXECUTABLE} ${OBJECT_DIR}/*.opp
