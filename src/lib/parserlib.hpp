@@ -26,6 +26,7 @@ namespace parserlib
             ~Stack();
             Stack(T val);
             void push(T val);
+            T pop();
     };
 
     
