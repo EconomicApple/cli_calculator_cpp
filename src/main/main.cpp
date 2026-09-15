@@ -12,8 +12,7 @@ int main(int argc, str_literal_t argv[])
 
     for (auto token: tokens)
     {
-
-        tokenlib::print_token(token);
+        token.print();
     }
     
     return 0;

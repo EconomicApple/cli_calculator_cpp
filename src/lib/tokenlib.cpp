@@ -43,18 +43,50 @@ std::string tokenlib::type_to_string(TokenType type)
         case TokenType::kMultiply: return "MULTIPLY";
         case TokenType::kDivide: return "DIVIDE";
         case TokenType::kNumber: return "NUMBER";
+        case TokenType::kIdentifier: return "IDENTIFIER";
+        case TokenType::kSemicolon: return "SEMICOLON";
+        case TokenType::kAssign: return "ASSIGN";
+        
         default: return "ILLEGAL";
     }
 }
 
-void tokenlib::print_token(Token token)
+bool tokenlib::
+Token::is_operator()
 {
-    std::cout << "Type: " << std::setw(8) // Left justification
-            << std::left << type_to_string(token.get_type()) 
-                << " Literal: " << std::setw(8) 
-                << std::left << token.get_literal();
+    switch(this->type)
+    {
+        case TokenType::kPlus: return true;
+        case TokenType::kMinus: return true;
+        case TokenType::kMultiply: return true;
+        case TokenType::kDivide: return true;
+    }
 
-    token.get_pos().print();
+    return false;
+}
+
+
+bool tokenlib::
+Token::is_number()
+{
+    switch(this->type)
+    {
+        case TokenType::kNumber: return true;
+    }
+
+    return false;
+}
+
+
+void tokenlib::Token::
+print()
+{
+    std::cout << "Type: " << std::setw(FORMAT_WIDTH) // Left justification
+            << std::left << type_to_string(this->get_type()) 
+                << " Literal: " << std::setw(FORMAT_WIDTH) 
+                << std::left << this->get_literal();
+
+    this->get_pos().print();
 }
 
 
@@ -87,9 +119,12 @@ char_to_token_type(char c)
         case '-': return TokenType::kMinus;
         case '*': return TokenType::kMultiply;
         case '/': return TokenType::kDivide;
+        case '=': return TokenType::kAssign;
+        case ';': return TokenType::kSemicolon;
     }
 
     if (isdigit(c)) return TokenType::kNumber;
+    if (isalnum(c)) return TokenType::kIdentifier;
 
     return TokenType::kIllegal;
 }
@@ -158,6 +193,40 @@ find_next_token(std::string::const_iterator it,
 
     // return new position of next token to scan
     return it;
+}
+
+double 
+tokenlib::operator *(Token t1, Token t2)
+{
+    if (!(t1.is_number() && t2.is_number()))
+    {
+        throw_illegal_token();
+    }
+
+    return std::stoi(t1.get_literal()) * std::stoi(t2.get_literal());
+}
+
+double 
+tokenlib::evaluate(std::vector<Token> tokens)
+{
+    for (auto it = tokens.begin(); it < tokens.end(); ++it)
+    {
+        if (it->is_operator())
+        {
+            if (it == tokens.begin() || it == tokens.end()
+                || !((it - 1)->is_number() && (it + 1)->is_number()))
+            {
+                
+            }
+
+            switch(it->get_type())
+            {
+
+            }
+        }
+    }
+
+    return 0;
 }
 
 tokenlib::Token::Token(){}

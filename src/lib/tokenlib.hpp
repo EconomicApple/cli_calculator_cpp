@@ -8,6 +8,8 @@
 #include <cstdlib>
 #include <vector>
 
+#define FORMAT_WIDTH 12
+
 namespace tokenlib
 {
 
@@ -18,6 +20,9 @@ namespace tokenlib
         kMinus,
         kMultiply,
         kDivide,
+        kIdentifier,
+        kAssign,
+        kSemicolon,
         kNumber
     };
 
@@ -51,8 +56,14 @@ namespace tokenlib
             Token(TokenType type, std::string literal, FilePos pos);
             TokenType get_type();
             std::string get_literal();  
-            FilePos get_pos();   
+            FilePos get_pos();
+            bool is_operator();
+            bool is_number();
+            void print();
     };
+
+    double operator *(Token t1, Token t2);
+
 
     std::vector<Token> tokenise(const std::string &str);
 
@@ -63,7 +74,9 @@ namespace tokenlib
     void throw_illegal_token();
 
     std::string type_to_string(TokenType type);
-    void print_token(Token token);
+    
+
+    double evaluate(std::vector<Token> tokens);
 };
 
 
