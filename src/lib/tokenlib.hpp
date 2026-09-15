@@ -28,6 +28,12 @@ namespace tokenlib
     {
         int line;
         int col;
+
+        FilePos();
+
+        // Use every time getchar() is used to keep track of file location.
+        void update_file_pos(char c);
+        void print();
     };
 
     class Token
@@ -35,15 +41,17 @@ namespace tokenlib
         private:
             TokenType type;
             std::string literal;
+            FilePos pos;
 
-             // Puts next token in token_buf and returns new pointer to string
+            // Puts next token in token_buf and returns new pointer to string
             
         public:
             Token();
             ~Token();
-            Token(TokenType type, std::string literal);
+            Token(TokenType type, std::string literal, FilePos pos);
             TokenType get_type();
-            std::string get_literal();     
+            std::string get_literal();  
+            FilePos get_pos();   
     };
 
     std::vector<Token> tokenise(const std::string &str);

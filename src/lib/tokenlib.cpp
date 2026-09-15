@@ -23,8 +23,6 @@ tokenise(const std::string& str)
         }
     }
 
-    std::cout << pos.col << " " << pos.line << std::endl;
-
     return tokens;
 }
 
@@ -53,7 +51,10 @@ void tokenlib::print_token(Token token)
 {
     std::cout << "Type: " << std::setw(8) // Left justification
             << std::left << type_to_string(token.get_type()) 
-                << " Literal: " << token.get_literal() << std::endl;
+                << " Literal: " << std::setw(8) 
+                << std::left << token.get_literal();
+
+    token.get_pos().print();
 }
 
 
@@ -69,6 +70,13 @@ get_literal()
 {
     return this->literal;
 }
+
+tokenlib::FilePos tokenlib::Token::
+get_pos()
+{
+    return this->pos;
+}
+
 
 tokenlib::TokenType tokenlib::
 char_to_token_type(char c)
@@ -92,23 +100,61 @@ is_whitespace(char c)
     return (c == ' ' || c == '\n' || c == '\t');
 }
 
+tokenlib::FilePos::FilePos()
+{
+    this->line = 0;
+    this->col = 1;
+}
+
+
+void tokenlib::
+FilePos::update_file_pos(char c)
+{
+    if (c == '\n')
+    {
+        this->col = 1;
+        this->line++;
+    }
+    else
+    {
+        this->col++;
+    }
+}
+
+void tokenlib::
+FilePos::print()
+{
+    std::cout << "Line " << this->line << " Col " << this->col << std::endl;
+}
+
+
 std::string::const_iterator tokenlib::
 find_next_token(std::string::const_iterator it, 
             std::string::const_iterator it_end, 
             Token &token_buf, FilePos &pos)
 {
     // skip whitespace characters
-    for (; is_whitespace(*it) && it < it_end; it++);
+    for (; is_whitespace(*it) && it < it_end; it++)
+    {
+        pos.update_file_pos(*it);
+    }
 
+    FilePos starting_pos = pos;
+    
+    pos.update_file_pos(*it);
 
     TokenType start_type = char_to_token_type(*it);
 
-    auto it_start = it;
+    auto it_start = it++;
 
     // Continue until token type != start type
-    while (++it < it_end && char_to_token_type(*it) == start_type);
+    while (it < it_end && char_to_token_type(*it) == start_type)
+    {
+        pos.update_file_pos(*it);
+        it++;
+    }
 
-    token_buf = Token(start_type, std::string(it_start, it));
+    token_buf = Token(start_type, std::string(it_start, it), starting_pos);
 
     // return new position of next token to scan
     return it;
@@ -118,10 +164,11 @@ tokenlib::Token::Token(){}
 
 tokenlib::Token::~Token(){}
 
-tokenlib::Token::Token(TokenType type, std::string literal)
+tokenlib::Token::Token(TokenType type, std::string literal, FilePos pos)
 {
     this->type = type;
     this->literal = literal;
+    this->pos = pos;
 }
 
 
