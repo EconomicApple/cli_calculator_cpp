@@ -7,10 +7,11 @@ tokenise(const std::string& str)
     auto it_end = str.end();
     Token token_buf;
     std::vector<Token> tokens = {};
+    FilePos pos = FilePos();
 
     while (it < it_end)
     {
-        it = find_next_token(it, it_end, token_buf);
+        it = find_next_token(it, it_end, token_buf, pos);
 
         if (token_buf.get_type() != TokenType::kIllegal)
         {
@@ -21,6 +22,8 @@ tokenise(const std::string& str)
             throw_illegal_token();
         }
     }
+
+    std::cout << pos.col << " " << pos.line << std::endl;
 
     return tokens;
 }
@@ -91,10 +94,12 @@ is_whitespace(char c)
 
 std::string::const_iterator tokenlib::
 find_next_token(std::string::const_iterator it, 
-            std::string::const_iterator it_end, Token &token_buf)
+            std::string::const_iterator it_end, 
+            Token &token_buf, FilePos &pos)
 {
+    // skip whitespace characters
     for (; is_whitespace(*it) && it < it_end; it++);
-    // now it is on non-whitespace character (can start to tokenise)
+
 
     TokenType start_type = char_to_token_type(*it);
 

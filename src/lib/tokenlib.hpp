@@ -24,6 +24,11 @@ namespace tokenlib
     bool is_whitespace(char c);
     TokenType char_to_token_type(char c);
 
+    struct FilePos
+    {
+        int line;
+        int col;
+    };
 
     class Token
     {
@@ -45,7 +50,7 @@ namespace tokenlib
 
     std::string::const_iterator find_next_token(std::string::const_iterator it, 
                         std::string::const_iterator it_end,
-                            Token &token_buf);
+                            Token &token_buf, FilePos &pos);
 
     void throw_illegal_token();
 
