@@ -10,6 +10,16 @@
 
 #define FORMAT_WIDTH 12
 
+#define PLUS "PLUS"
+#define MINUS "MINUS"
+#define MULTIPLY "MULTIPLY"
+#define DIVIDE "DIVIDE"
+#define NUMBER "NUMBER"
+#define IDENTIFIER "IDENTIFIER"
+#define SEMICOLON "SEMICOLON"
+#define ASSIGN "ASSIGN"
+#define ILLEGAL "ILLEGAL"
+
 namespace tokenlib
 {
 

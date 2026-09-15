@@ -38,16 +38,16 @@ std::string tokenlib::type_to_string(TokenType type)
 {
     switch (type)
     {
-        case TokenType::kPlus: return "PLUS";
-        case TokenType::kMinus: return "MINUS";
-        case TokenType::kMultiply: return "MULTIPLY";
-        case TokenType::kDivide: return "DIVIDE";
-        case TokenType::kNumber: return "NUMBER";
-        case TokenType::kIdentifier: return "IDENTIFIER";
-        case TokenType::kSemicolon: return "SEMICOLON";
-        case TokenType::kAssign: return "ASSIGN";
+        case TokenType::kPlus: return PLUS;
+        case TokenType::kMinus: return MINUS;
+        case TokenType::kMultiply: return MULTIPLY;
+        case TokenType::kDivide: return DIVIDE;
+        case TokenType::kNumber: return NUMBER;
+        case TokenType::kIdentifier: return IDENTIFIER;
+        case TokenType::kSemicolon: return SEMICOLON;
+        case TokenType::kAssign: return ASSIGN;
         
-        default: return "ILLEGAL";
+        default: return ILLEGAL;
     }
 }
 
