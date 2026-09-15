@@ -1,32 +1,44 @@
 #include "parserlib.hpp"
 
-parserlib::TokenTypeStack::
-TokenTypeStack()
+template<typename T>
+parserlib::Stack<T>::
+Stack()
 {
     this->stack_ptr = nullptr;
 }
 
-parserlib::TokenTypeStack::
-~TokenTypeStack(){}
+template<typename T>
+parserlib::Stack<T>::
+~Stack(){}
 
-parserlib::TokenTypeStackNode::
-TokenTypeStackNode()
+template<typename T>
+parserlib::StackNode<T>::
+StackNode()
 {
     this->prev = nullptr;
-    this->type = lexerlib::TokenType::kIllegal;
+    this->val = T();
 }
 
-parserlib::TokenTypeStackNode::
-TokenTypeStackNode(lexerlib::TokenType type)
+template<typename T>
+parserlib::StackNode<T>::
+StackNode(T val)
 {
     this->prev = nullptr;
-    this->type = type;
+    this->val = val;
 }
 
-parserlib::TokenTypeStack::
-TokenTypeStack(lexerlib::TokenType token_type)
+template<typename T>
+parserlib::Stack<T>::
+Stack(T val)
 {
-    this->stack_ptr = std::make_unique<TokenTypeStackNode>(token_type);
+    this->stack_ptr = std::make_unique<StackNode>(val);
+}
+
+template<typename T>
+void parserlib::Stack<T>::
+push(T val)
+{
+    
 }
 
 // TODO: create operator stack

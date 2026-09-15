@@ -6,23 +6,26 @@
 
 namespace parserlib
 {
-    struct TokenTypeStackNode
+    template<typename T>
+    struct StackNode
     {
-        lexerlib::TokenType type;
-        std::unique_ptr<TokenTypeStackNode> prev;
+        T val;
+        std::unique_ptr<StackNode> prev;
 
-        TokenTypeStackNode();
-        TokenTypeStackNode(lexerlib::TokenType type);
+        StackNode();
+        StackNode(T val);
     };
 
-    class TokenTypeStack
+    template<typename T>
+    class Stack
     {
         private:
-            std::unique_ptr<TokenTypeStackNode> stack_ptr;
+            std::unique_ptr<StackNode<T>> stack_ptr;
         public:
-            TokenTypeStack();
-            ~TokenTypeStack();
-            TokenTypeStack(lexerlib::TokenType token_type);
+            Stack();
+            ~Stack();
+            Stack(T val);
+            void push(T val);
     };
 
     
