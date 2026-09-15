@@ -1,6 +1,6 @@
-#include "tokenlib.hpp"
+#include "lexerlib.hpp"
 
-std::vector<tokenlib::Token> tokenlib::
+std::vector<lexerlib::Token> lexerlib::
 tokenise(const std::string& str)
 {
     auto it = str.begin();
@@ -28,13 +28,13 @@ tokenise(const std::string& str)
 
 
 void 
-tokenlib::throw_illegal_token()
+lexerlib::throw_illegal_token()
 {
     std::cerr << "Illegal token!" << std::endl;
     exit(EXIT_FAILURE);
 }
 
-std::string tokenlib::type_to_string(TokenType type)
+std::string lexerlib::type_to_string(TokenType type)
 {
     switch (type)
     {
@@ -51,7 +51,7 @@ std::string tokenlib::type_to_string(TokenType type)
     }
 }
 
-bool tokenlib::
+bool lexerlib::
 Token::is_operator()
 {
     switch(this->type)
@@ -66,7 +66,7 @@ Token::is_operator()
 }
 
 
-bool tokenlib::
+bool lexerlib::
 Token::is_number()
 {
     switch(this->type)
@@ -78,7 +78,7 @@ Token::is_number()
 }
 
 
-void tokenlib::Token::
+void lexerlib::Token::
 print()
 {
     std::cout << "Type: " << std::setw(FORMAT_WIDTH) // Left justification
@@ -91,26 +91,26 @@ print()
 
 
 
-tokenlib::TokenType tokenlib::Token::
+lexerlib::TokenType lexerlib::Token::
 get_type()
 {
     return this->type;
 }
 
-std::string tokenlib::Token::
+std::string lexerlib::Token::
 get_literal()
 {
     return this->literal;
 }
 
-tokenlib::FilePos tokenlib::Token::
+lexerlib::FilePos lexerlib::Token::
 get_pos()
 {
     return this->pos;
 }
 
 
-tokenlib::TokenType tokenlib::
+lexerlib::TokenType lexerlib::
 char_to_token_type(char c)
 {
     switch(c)
@@ -129,20 +129,20 @@ char_to_token_type(char c)
     return TokenType::kIllegal;
 }
 
-bool tokenlib::
+bool lexerlib::
 is_whitespace(char c)
 {
     return (c == ' ' || c == '\n' || c == '\t');
 }
 
-tokenlib::FilePos::FilePos()
+lexerlib::FilePos::FilePos()
 {
     this->line = 1;
     this->col = 1;
 }
 
 
-void tokenlib::
+void lexerlib::
 FilePos::update_file_pos(char c)
 {
     if (c == '\n')
@@ -156,14 +156,14 @@ FilePos::update_file_pos(char c)
     }
 }
 
-void tokenlib::
+void lexerlib::
 FilePos::print()
 {
     std::cout << "Line " << this->line << " Col " << this->col << std::endl;
 }
 
 
-std::string::const_iterator tokenlib::
+std::string::const_iterator lexerlib::
 find_next_token(std::string::const_iterator it, 
             std::string::const_iterator it_end, 
             Token &token_buf, FilePos &pos)
@@ -196,7 +196,7 @@ find_next_token(std::string::const_iterator it,
 }
 
 double 
-tokenlib::operator *(Token t1, Token t2)
+lexerlib::operator *(Token t1, Token t2)
 {
     if (!(t1.is_number() && t2.is_number()))
     {
@@ -207,7 +207,7 @@ tokenlib::operator *(Token t1, Token t2)
 }
 
 double 
-tokenlib::evaluate(std::vector<Token> tokens)
+lexerlib::evaluate(std::vector<Token> tokens)
 {
     for (auto it = tokens.begin(); it < tokens.end(); ++it)
     {
@@ -229,11 +229,11 @@ tokenlib::evaluate(std::vector<Token> tokens)
     return 0;
 }
 
-tokenlib::Token::Token(){}
+lexerlib::Token::Token(){}
 
-tokenlib::Token::~Token(){}
+lexerlib::Token::~Token(){}
 
-tokenlib::Token::Token(TokenType type, std::string literal, FilePos pos)
+lexerlib::Token::Token(TokenType type, std::string literal, FilePos pos)
 {
     this->type = type;
     this->literal = literal;

@@ -1,5 +1,5 @@
-#ifndef TOKENISER_CPP_SRC_LIB_TOKENLIB_HPP
-#define TOKENISER_CPP_SRC_LIB_TOKENLIB_HPP
+#ifndef TOKENISER_CPP_SRC_LIB_LEXERLIB_HPP
+#define TOKENISER_CPP_SRC_LIB_LEXERLIB_HPP
 
 #include <string>
 #include <fstream>
@@ -20,7 +20,7 @@
 #define ASSIGN "ASSIGN"
 #define ILLEGAL "ILLEGAL"
 
-namespace tokenlib
+namespace lexerlib
 {
 
     enum class TokenType
