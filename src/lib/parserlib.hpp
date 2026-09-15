@@ -3,35 +3,12 @@
 
 #include "lexerlib.hpp"
 #include <memory>
+#include <stack>
+#include <queue>
 
 namespace parserlib
 {
-    template<typename T>
-    struct StackNode
-    {
-        T val;
-        std::unique_ptr<StackNode> prev;
-
-        StackNode();
-        StackNode(T val);
-    };
-
-    template<typename T>
-    class Stack
-    {
-        private:
-            std::unique_ptr<StackNode<T>> stack_ptr;
-        public:
-            Stack();
-            ~Stack();
-            Stack(T val);
-            void push(T val);
-            T pop();
-    };
-
-    
-
-    void parse(std::vector<lexerlib::Token> tokens);
+    void parse(const std::vector<lexerlib::Token> &tokens);
 };
 
 

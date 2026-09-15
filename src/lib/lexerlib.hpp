@@ -84,9 +84,6 @@ namespace lexerlib
     void throw_illegal_token();
 
     std::string type_to_string(TokenType type);
-    
-
-    double evaluate(std::vector<Token> tokens);
 };
 
 

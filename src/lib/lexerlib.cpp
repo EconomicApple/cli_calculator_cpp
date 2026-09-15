@@ -206,29 +206,6 @@ lexerlib::operator *(Token t1, Token t2)
     return std::stoi(t1.get_literal()) * std::stoi(t2.get_literal());
 }
 
-double 
-lexerlib::evaluate(std::vector<Token> tokens)
-{
-    for (auto it = tokens.begin(); it < tokens.end(); ++it)
-    {
-        if (it->is_operator())
-        {
-            if (it == tokens.begin() || it == tokens.end()
-                || !((it - 1)->is_number() && (it + 1)->is_number()))
-            {
-                
-            }
-
-            switch(it->get_type())
-            {
-
-            }
-        }
-    }
-
-    return 0;
-}
-
 lexerlib::Token::Token(){}
 
 lexerlib::Token::~Token(){}
