@@ -44,6 +44,8 @@ std::vector<lexerlib::Token> parserlib::parse(
                 default:
                     while (!opstack.empty() && 
                             opstack.top().get_type() != lexerlib::TokenType::kLeftBrac
+
+                            // assume it is left-associative: does not work with exp
                             && (opstack.top().get_type() <= token.get_type()))
                     {
                         outqueue.push_back(opstack.top());
