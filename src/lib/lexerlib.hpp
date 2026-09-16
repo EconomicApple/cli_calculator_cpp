@@ -25,72 +25,70 @@
 
 namespace lexerlib
 {
-    enum class TokenType
-    {
-        kIllegal,
-        kLeftBrac,
-        kRightBrac,
-        kPlus,
-        kMinus,
-        kMultiply,
-        kDivide,
-        kIdentifier,
-        kAssign,
-        kSemicolon,
-        kNumber
-    };
 
-    
+enum class TokenType
+{
+    kIllegal,
+    kLeftBrac,
+    kRightBrac,
+    kPlus,
+    kMinus,
+    kMultiply,
+    kDivide,
+    kIdentifier,
+    kAssign,
+    kSemicolon,
+    kNumber
+};
 
-    bool is_whitespace(char c);
-    TokenType char_to_token_type(char c);
 
-    struct FilePos
-    {
-        int line;
-        int col;
 
-        FilePos();
+bool is_whitespace(char c);
+TokenType char_to_token_type(char c);
 
-        // Use every time getchar() is used to keep track of file location.
-        void update_file_pos(char c);
+struct FilePos
+{
+    int line;
+    int col;
+
+    FilePos();
+
+    // Use every time getchar() is used to keep track of file location.
+    void update_file_pos(char c);
+    void print();
+};
+
+class Token
+{
+    private:
+        TokenType type;
+        std::string literal;
+        FilePos pos;
+
+        // Puts next token in token_buf and returns new pointer to string
+        
+    public:
+        Token();
+        ~Token();
+        Token(TokenType type, std::string literal, FilePos pos);
+        TokenType get_type();
+        std::string get_literal();  
+        FilePos get_pos();
+        bool is_operator();
+        bool is_number();
         void print();
-    };
+};
 
-    class Token
-    {
-        private:
-            TokenType type;
-            std::string literal;
-            FilePos pos;
+std::vector<Token> tokenise(const std::string &str);
 
-            // Puts next token in token_buf and returns new pointer to string
-            
-        public:
-            Token();
-            ~Token();
-            Token(TokenType type, std::string literal, FilePos pos);
-            TokenType get_type();
-            std::string get_literal();  
-            FilePos get_pos();
-            bool is_operator();
-            bool is_number();
-            void print();
-    };
+std::string::const_iterator find_next_token(std::string::const_iterator it, 
+                    std::string::const_iterator it_end,
+                        Token &token_buf, FilePos &pos);
 
-    double operator *(Token t1, Token t2);
-    
+void throw_illegal_token();
 
+std::string type_to_string(TokenType type);
 
-    std::vector<Token> tokenise(const std::string &str);
-
-    std::string::const_iterator find_next_token(std::string::const_iterator it, 
-                        std::string::const_iterator it_end,
-                            Token &token_buf, FilePos &pos);
-
-    void throw_illegal_token();
-
-    std::string type_to_string(TokenType type);
 };
 
 

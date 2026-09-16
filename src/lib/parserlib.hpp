@@ -15,24 +15,54 @@
 #define MINUS_PREC 4
 #define ASSIGN_PREC 14
 
+#include <memory>
 namespace parserlib
 {
-    // Returns precedence. Lower precedence gets executed first.
-    bool operator >(lexerlib::TokenType t1, lexerlib::TokenType t2);
 
-    // Returns precedence. Lower precedence gets executed first.
-    bool operator >=(lexerlib::TokenType t1, lexerlib::TokenType t2);
+template<typename T>
+struct TreeNode
+{
+    T val;
+    std::shared_ptr<TreeNode> left;
+    std::shared_ptr<TreeNode> right;
 
-    // Returns precedence. Lower precedence gets executed first.
-    bool operator <(lexerlib::TokenType t1, lexerlib::TokenType t2);
+    TreeNode();
+    TreeNode(T val);
 
-    // Returns precedence. Lower precedence gets executed first.
-    bool operator <=(lexerlib::TokenType t1, lexerlib::TokenType t2);
+    void insert_left_node(T val);
+    void insert_right_node(T val);
 
-    int op_precedence(lexerlib::TokenType type);
+    void insert_left_treenode(TreeNode<T> val);
+    void insert_right_treenode(TreeNode<T> val);
+};
 
-    // Implementation of shunting yard algorithm
-    std::vector<lexerlib::Token> parse(const std::vector<lexerlib::Token> &tokens);
+
+// Prints all tokens in AST
+void traverse_print(TreeNode<lexerlib::Token> &tree, int recursion_depth);
+
+
+// Returns precedence. Lower precedence gets executed first.
+bool operator >(lexerlib::TokenType t1, lexerlib::TokenType t2);
+
+// Returns precedence. Lower precedence gets executed first.
+bool operator >=(lexerlib::TokenType t1, lexerlib::TokenType t2);
+
+// Returns precedence. Lower precedence gets executed first.
+bool operator <(lexerlib::TokenType t1, lexerlib::TokenType t2);
+
+// Returns precedence. Lower precedence gets executed first.
+bool operator <=(lexerlib::TokenType t1, lexerlib::TokenType t2);
+
+int op_precedence(lexerlib::TokenType type);
+
+void pop_opstack(std::stack<lexerlib::Token> &opstack, 
+                std::stack<TreeNode<lexerlib::Token>> &outstack);
+
+// Implementation of shunting yard algorithm (Postfix)
+std::vector<lexerlib::Token> parse(const std::vector<lexerlib::Token> &tokens);
+
+// Implementation of shunting yard algorithm (Abstract search tree)
+TreeNode<lexerlib::Token> syntax_tree(const std::vector<lexerlib::Token> &tokens);
 };
 
 

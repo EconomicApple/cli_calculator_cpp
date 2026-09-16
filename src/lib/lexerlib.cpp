@@ -191,9 +191,17 @@ find_next_token(std::string::const_iterator it,
 
     auto it_start = it++;
 
+    bool has_decimal = false;
+
     // Continue until token type != start type
-    while (it < it_end && char_to_token_type(*it) == start_type)
+    while (it < it_end && ((char_to_token_type(*it) == start_type) 
+        || (!has_decimal && *it == '.' && start_type == TokenType::kNumber)))
     {
+        if (start_type == TokenType::kNumber && *it == '.')
+        {
+            has_decimal = true;
+        }
+
         pos.update_file_pos(*it);
         it++;
     }
@@ -202,17 +210,6 @@ find_next_token(std::string::const_iterator it,
 
     // return new position of next token to scan
     return it;
-}
-
-double 
-lexerlib::operator *(Token t1, Token t2)
-{
-    if (!(t1.is_number() && t2.is_number()))
-    {
-        throw_illegal_token();
-    }
-
-    return std::stoi(t1.get_literal()) * std::stoi(t2.get_literal());
 }
 
 lexerlib::Token::Token(){}

@@ -68,6 +68,49 @@ std::vector<lexerlib::Token> parserlib::parse(
 };
 
 
+template<typename T>
+parserlib::TreeNode<T>::TreeNode()
+{
+    this->val = T();
+    this->left = nullptr;
+    this->right = nullptr;
+}
+
+
+template<typename T>
+parserlib::TreeNode<T>::TreeNode(T val)
+{
+    this->val = val;
+    this->left = nullptr;
+    this->right = nullptr;
+}
+
+template<typename T>
+void parserlib::TreeNode<T>::insert_left_node(T val)
+{
+    this->left = std::make_shared<TreeNode<T>>(val);
+}
+
+template<typename T>
+void parserlib::TreeNode<T>::insert_left_treenode(TreeNode<T> val)
+{
+    this->left = std::make_shared<TreeNode<T>>(val);
+}
+
+template<typename T>
+void parserlib::TreeNode<T>::insert_right_treenode(TreeNode<T> val)
+{
+    this->right = std::make_shared<TreeNode<T>>(val);
+}
+
+
+template<typename T>
+void parserlib::TreeNode<T>::insert_right_node(T val)
+{
+    this->right = std::make_shared<TreeNode<T>>(val);
+}
+
+
 int parserlib::
 op_precedence(lexerlib::TokenType type)
 {
@@ -83,6 +126,116 @@ op_precedence(lexerlib::TokenType type)
 
         default: return NOT_OP;
     }
+}
+
+void parserlib::
+pop_opstack(std::stack<lexerlib::Token> &opstack,
+            std::stack<TreeNode<lexerlib::Token>> &outstack)
+{
+    assert(!opstack.empty());
+
+    TreeNode<lexerlib::Token> n1(opstack.top());
+    opstack.pop();
+
+    assert(!outstack.empty());
+
+    n1.insert_right_treenode(outstack.top());
+    outstack.pop();
+
+    assert(!outstack.empty());
+
+    n1.insert_left_treenode(outstack.top());
+    outstack.pop();
+
+
+    outstack.push(n1);
+}
+
+parserlib::TreeNode<lexerlib::Token>
+parserlib::
+syntax_tree(const std::vector<lexerlib::Token> &tokens)
+{
+    std::stack<lexerlib::Token> opstack = {};
+    std::stack<TreeNode<lexerlib::Token>> outstack = {};
+
+    // shunting yard
+    for (lexerlib::Token token: tokens)
+    {
+        if (token.is_number())
+        {
+            outstack.push(TreeNode<lexerlib::Token>(token));
+        }
+        else if (token.is_operator())
+        {
+            switch(token.get_type())
+            {
+                case lexerlib::TokenType::kLeftBrac:
+                    opstack.push(token);
+                    break;
+                case lexerlib::TokenType::kRightBrac:
+                    while (true)
+                    {
+                        assert(!opstack.empty());
+
+                        if (opstack.top().get_type() 
+                            == lexerlib::TokenType::kLeftBrac)
+                        {
+                            break;
+                        }
+
+                        pop_opstack(opstack, outstack);
+                    }
+
+                    assert(opstack.top().get_type() 
+                            == lexerlib::TokenType::kLeftBrac);
+
+                    opstack.pop();
+                    break;
+                default:
+                    while (!opstack.empty() && 
+                            opstack.top().get_type() != lexerlib::TokenType::kLeftBrac
+
+                            // assume it is left-associative: does not work with exp
+                            && (opstack.top().get_type() <= token.get_type()))
+                    {
+                        pop_opstack(opstack, outstack);
+                    }
+
+                    opstack.push(token);
+                    break;
+            }       
+        }
+    }
+
+    while (!opstack.empty())
+    {
+        pop_opstack(opstack, outstack);
+    }
+
+    assert(outstack.size() == 1);
+
+    return outstack.top();
+}
+
+void parserlib::
+traverse_print(TreeNode<lexerlib::Token> &tree, int recursion_depth)
+{
+    for (int i = 0; i < recursion_depth; ++i)
+    {
+        std::cout << '\t';
+    }
+    tree.val.print();
+
+    if (tree.left != nullptr)
+    {
+        traverse_print(*tree.left, recursion_depth + 1);
+    }
+
+    if (tree.right == nullptr)
+    {
+        return;
+    }
+    traverse_print(*tree.right, recursion_depth + 1);
 }
 
 bool parserlib::

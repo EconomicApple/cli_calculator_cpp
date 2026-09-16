@@ -1,5 +1,5 @@
 CPP_COMPILER=g++
-CPP_FLAGS=
+CPP_FLAGS=-fsanitize=address
 
 EXECUTABLE=bin/main
 
@@ -16,7 +16,7 @@ ARGS=
 STDIN=tests/testcases/test.txt
 STDOUT=tests/testoutput/out.txt
 
-LOCAL_LIB_SOURCE_FILES=lexerlib.cpp parserlib.cpp
+LOCAL_LIB_SOURCE_FILES=lexerlib.cpp parserlib.cpp calculatorlib.cpp
 
 OBJECT_FILES=${LOCAL_LIB_SOURCE_FILES:%.cpp=${OBJECT_DIR}/%.opp} ${OBJECT_DIR}/${MAIN_OBJ}
 
