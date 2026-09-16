@@ -5,14 +5,15 @@ typedef const char* str_literal_t;
 
 int main(int argc, str_literal_t argv[])
 {
+    // read file
     std::string str;
     getline(std::cin, str, {});
     
     parserlib::TreeNode<lexerlib::Token> syntax_tree = 
                 parserlib::syntax_tree(lexerlib::tokenise(str));
     
-    std::cout << calculatorlib::evaluate(syntax_tree) << std::endl;
+    std::cout << std::fixed << std::setprecision(4) 
+    << calculatorlib::evaluate(syntax_tree) << std::endl;
 
-    
     return 0;
 }
