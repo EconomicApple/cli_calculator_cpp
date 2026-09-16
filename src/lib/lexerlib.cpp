@@ -64,6 +64,7 @@ Token::is_operator()
         case TokenType::kDivide: return true;
         case TokenType::kLeftBrac: return true;
         case TokenType::kRightBrac: return true;
+        case TokenType::kAssign: return true;
     }
 
     return false;
@@ -78,48 +79,6 @@ print()
                 << std::left << this->get_literal();
 
     this->get_pos().print();
-}
-
-
-int lexerlib::
-op_precedence(TokenType type)
-{
-    switch(type)
-    {
-        case TokenType::kLeftBrac: return LEFTBRAC_PREC;
-        case TokenType::kRightBrac: return RIGHTBRAC_PREC;
-        case TokenType::kMultiply: return MULTIPLY_PREC;
-        case TokenType::kDivide: return DIVIDE_PREC;
-        case TokenType::kPlus: return PLUS_PREC;
-        case TokenType::kMinus: return MINUS_PREC;
-
-        default: return NOT_OP;
-    }
-}
-
-bool lexerlib::
-operator >(TokenType t1, TokenType t2)
-{
-    return op_precedence(t1) > op_precedence(t2);
-}
-
-bool lexerlib::
-operator >=(TokenType t1, TokenType t2)
-{
-    return op_precedence(t1) >= op_precedence(t2);
-}
-
-
-bool lexerlib::
-operator <(TokenType t1, TokenType t2)
-{
-    return op_precedence(t1) < op_precedence(t2);
-}
-
-bool lexerlib::
-operator <=(TokenType t1, TokenType t2)
-{
-    return op_precedence(t1) <= op_precedence(t2);
 }
 
 
@@ -169,6 +128,8 @@ char_to_token_type(char c)
         case '/': return TokenType::kDivide;
         case '=': return TokenType::kAssign;
         case ';': return TokenType::kSemicolon;
+        case '(': return TokenType::kLeftBrac;
+        case ')': return TokenType::kRightBrac;
     }
 
     if (isdigit(c)) return TokenType::kNumber;
