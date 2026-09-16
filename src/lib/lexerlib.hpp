@@ -19,13 +19,25 @@
 #define SEMICOLON "SEMICOLON"
 #define ASSIGN "ASSIGN"
 #define ILLEGAL "ILLEGAL"
+#define LEFTBRAC "LEFTBRAC"
+#define RIGHTBRAC "RIGHTBRAC"
+
+#define NOT_OP 0
+#define LEFTBRAC_PREC 1
+#define RIGHTBRAC_PREC 1
+#define MULTIPLY_PREC 3
+#define DIVIDE_PREC 3
+#define PLUS_PREC 4
+#define MINUS_PREC 4
+
 
 namespace lexerlib
 {
-
     enum class TokenType
     {
         kIllegal,
+        kLeftBrac,
+        kRightBrac,
         kPlus,
         kMinus,
         kMultiply,
@@ -35,6 +47,8 @@ namespace lexerlib
         kSemicolon,
         kNumber
     };
+
+    int op_precedence(TokenType type);
 
     bool is_whitespace(char c);
     TokenType char_to_token_type(char c);

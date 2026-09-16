@@ -46,6 +46,8 @@ std::string lexerlib::type_to_string(TokenType type)
         case TokenType::kIdentifier: return IDENTIFIER;
         case TokenType::kSemicolon: return SEMICOLON;
         case TokenType::kAssign: return ASSIGN;
+        case TokenType::kLeftBrac: return LEFTBRAC;
+        case TokenType::kRightBrac: return RIGHTBRAC;
         
         default: return ILLEGAL;
     }
@@ -60,9 +62,39 @@ Token::is_operator()
         case TokenType::kMinus: return true;
         case TokenType::kMultiply: return true;
         case TokenType::kDivide: return true;
+        case TokenType::kLeftBrac: return true;
+        case TokenType::kRightBrac: return true;
     }
 
     return false;
+}
+
+void lexerlib::Token::
+print()
+{
+    std::cout << "Type: " << std::setw(FORMAT_WIDTH) // Left justification
+            << std::left << type_to_string(this->get_type()) 
+                << " Literal: " << std::setw(FORMAT_WIDTH) 
+                << std::left << this->get_literal();
+
+    this->get_pos().print();
+}
+
+
+int lexerlib::
+op_precedence(TokenType type)
+{
+    switch(type)
+    {
+        case TokenType::kLeftBrac: return LEFTBRAC_PREC;
+        case TokenType::kRightBrac: return RIGHTBRAC_PREC;
+        case TokenType::kMultiply: return MULTIPLY_PREC;
+        case TokenType::kDivide: return DIVIDE_PREC;
+        case TokenType::kPlus: return PLUS_PREC;
+        case TokenType::kMinus: return MINUS_PREC;
+
+        default: return NOT_OP;
+    }
 }
 
 
@@ -78,16 +110,6 @@ Token::is_number()
 }
 
 
-void lexerlib::Token::
-print()
-{
-    std::cout << "Type: " << std::setw(FORMAT_WIDTH) // Left justification
-            << std::left << type_to_string(this->get_type()) 
-                << " Literal: " << std::setw(FORMAT_WIDTH) 
-                << std::left << this->get_literal();
-
-    this->get_pos().print();
-}
 
 
 
