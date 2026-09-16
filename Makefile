@@ -1,15 +1,15 @@
 CPP_COMPILER=g++
 CPP_FLAGS=-fsanitize=address
 
-EXECUTABLE=bin/main
-
 OBJECT_DIR=obj
 LOCAL_LIB_DIR=src/lib
+
 MAIN_DIR=src/main
 
-MAIN_FILE=main.cpp
+MAIN_FILE_NAME=clicalc
 
-MAIN_OBJ=main.opp
+EXECUTABLE=bin/${MAIN_FILE_NAME}
+MAIN_FILE=${MAIN_FILE_NAME}.cpp
 
 ARGS=
 
@@ -18,7 +18,7 @@ STDOUT=tests/testoutput/out.txt
 
 LOCAL_LIB_SOURCE_FILES=lexerlib.cpp parserlib.cpp calculatorlib.cpp
 
-OBJECT_FILES=${LOCAL_LIB_SOURCE_FILES:%.cpp=${OBJECT_DIR}/%.opp} ${OBJECT_DIR}/${MAIN_OBJ}
+OBJECT_FILES=${LOCAL_LIB_SOURCE_FILES:%.cpp=${OBJECT_DIR}/%.opp} ${MAIN_FILE:%.cpp=${OBJECT_DIR}/%.opp}
 
 all: build
 
@@ -27,7 +27,7 @@ ${OBJECT_DIR}/%.opp: ${LOCAL_LIB_DIR}/%.cpp
 	${CPP_COMPILER} -c $^ -o $@
 
 
-${OBJECT_DIR}/${MAIN_OBJ}: ${MAIN_DIR}/${MAIN_FILE}
+${OBJECT_DIR}/%.opp: ${MAIN_DIR}/%.cpp
 	${CPP_COMPILER} -c $^ -o $@
 
 # build

@@ -18,6 +18,7 @@ std::vector<lexerlib::Token> parserlib::parse(
             {
                 case lexerlib::TokenType::kLeftBrac:
                     opstack.push(token);
+                    std::cout << "Pushed\n" << std::endl;
                     break;
                 case lexerlib::TokenType::kRightBrac:
                     while (true)
@@ -31,7 +32,7 @@ std::vector<lexerlib::Token> parserlib::parse(
                         {
                             break;
                         }
-
+                        
                         opstack.pop();
                         outqueue.push_back(token_2);
                     }
