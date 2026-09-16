@@ -194,17 +194,30 @@ find_next_token(std::string::const_iterator it,
     bool has_decimal = false;
 
     // Continue until token type != start type
-    while (it < it_end && ((char_to_token_type(*it) == start_type) 
-        || (!has_decimal && *it == '.' && start_type == TokenType::kNumber)))
-    {
-        if (start_type == TokenType::kNumber && *it == '.')
-        {
-            has_decimal = true;
-        }
 
-        pos.update_file_pos(*it);
-        it++;
+    if (start_type == TokenType::kNumber)
+    {
+        while (it < it_end && ((char_to_token_type(*it) == start_type) 
+            || (!has_decimal && *it == '.')))
+        {
+            if (*it == '.')
+            {
+                has_decimal = true;
+            }
+
+            pos.update_file_pos(*it);
+            it++;
+        }
     }
+    else if (start_type == TokenType::kIdentifier)
+    {
+        while (it < it_end && ((char_to_token_type(*it) == start_type)))
+        {
+            pos.update_file_pos(*it);
+            it++;
+        }
+    }
+    // else is operator
 
     token_buf = Token(start_type, std::string(it_start, it), starting_pos);
 
