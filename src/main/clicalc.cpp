@@ -18,7 +18,6 @@ int main(int argc, str_literal_t argv[])
             << calculatorlib::evaluate(syntax_tree) << std::endl;
 
         std::cout << "Enter expression: " << std::endl;
-        break;
     }
 
     return 0;
