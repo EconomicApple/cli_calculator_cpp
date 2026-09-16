@@ -87,9 +87,17 @@ namespace lexerlib
     };
 
     double operator *(Token t1, Token t2);
+
+    // Returns precedence. Lower precedence gets executed first.
     bool operator >(TokenType t1, TokenType t2);
+
+    // Returns precedence. Lower precedence gets executed first.
     bool operator >=(TokenType t1, TokenType t2);
+
+    // Returns precedence. Lower precedence gets executed first.
     bool operator <(TokenType t1, TokenType t2);
+
+    // Returns precedence. Lower precedence gets executed first.
     bool operator <=(TokenType t1, TokenType t2);
     
 

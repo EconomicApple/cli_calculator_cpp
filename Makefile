@@ -16,7 +16,7 @@ ARGS=
 STDIN=tests/testcases/test.txt
 STDOUT=tests/testoutput/out.txt
 
-LOCAL_LIB_SOURCE_FILES=lexerlib.cpp
+LOCAL_LIB_SOURCE_FILES=lexerlib.cpp parserlib.cpp
 
 OBJECT_FILES=${LOCAL_LIB_SOURCE_FILES:%.cpp=${OBJECT_DIR}/%.opp} ${OBJECT_DIR}/${MAIN_OBJ}
 
