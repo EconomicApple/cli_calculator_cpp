@@ -38,18 +38,18 @@ std::string lexerlib::type_to_string(TokenType type)
 {
     switch (type)
     {
-        case TokenType::kPlus: return PLUS;
-        case TokenType::kMinus: return MINUS;
-        case TokenType::kMultiply: return MULTIPLY;
-        case TokenType::kDivide: return DIVIDE;
-        case TokenType::kNumber: return NUMBER;
-        case TokenType::kIdentifier: return IDENTIFIER;
-        case TokenType::kSemicolon: return SEMICOLON;
-        case TokenType::kAssign: return ASSIGN;
-        case TokenType::kLeftBrac: return LEFTBRAC;
-        case TokenType::kRightBrac: return RIGHTBRAC;
+        case TokenType::kPlus: return LEXERLIB_PLUS_LITERAL;
+        case TokenType::kMinus: return LEXERLIB_MINUS_LITERAL;
+        case TokenType::kMultiply: return LEXERLIB_MULTIPLY_LITERAL;
+        case TokenType::kDivide: return LEXERLIB_DIVIDE_LITERAL;
+        case TokenType::kNumber: return LEXERLIB_NUMBER_LITERAL;
+        case TokenType::kIdentifier: return LEXERLIB_IDENTIFIER_LITERAL;
+        case TokenType::kSemicolon: return LEXERLIB_SEMICOLON_LITERAL;
+        case TokenType::kAssign: return LEXERLIB_ASSIGN_LITERAL;
+        case TokenType::kLeftBrac: return LEXERLIB_LEFTBRAC_LITERAL;
+        case TokenType::kRightBrac: return LEXERLIB_RIGHTBRAC_LITERAL;
         
-        default: return ILLEGAL;
+        default: return LEXERLIB_ILLEGAL_LITERAL;
     }
 }
 
@@ -73,9 +73,9 @@ Token::is_operator()
 void lexerlib::Token::
 print()
 {
-    std::cout << "Type: " << std::setw(FORMAT_WIDTH) // Left justification
+    std::cout << "Type: " << std::setw(LEXERLIB_PRINT_FORMAT_WIDTH) // Left justification
             << std::left << type_to_string(this->get_type()) 
-                << " Literal: " << std::setw(FORMAT_WIDTH) 
+                << " Literal: " << std::setw(LEXERLIB_PRINT_FORMAT_WIDTH) 
                 << std::left << this->get_literal();
 
     this->get_pos().print();

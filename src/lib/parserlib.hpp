@@ -6,14 +6,14 @@
 #include <queue>
 #include <cassert>
 
-#define NOT_OP 0
-#define LEFTBRAC_PREC 1
-#define RIGHTBRAC_PREC 1
-#define MULTIPLY_PREC 3
-#define DIVIDE_PREC 3
-#define PLUS_PREC 4
-#define MINUS_PREC 4
-#define ASSIGN_PREC 14
+#define PARSERLIB_NOT_OP 0
+#define PARSERLIB_LEFTBRAC_PREC 1
+#define PARSERLIB_RIGHTBRAC_PREC 1
+#define PARSERLIB_MULTIPLY_PREC 3
+#define PARSERLIB_DIVIDE_PREC 3
+#define PARSERLIB_PLUS_PREC 4
+#define PARSERLIB_MINUS_PREC 4
+#define PARSERLIB_ASSIGN_PREC 14
 
 #include <memory>
 namespace parserlib

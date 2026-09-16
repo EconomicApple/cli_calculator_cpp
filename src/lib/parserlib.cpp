@@ -117,15 +117,15 @@ op_precedence(lexerlib::TokenType type)
 {
     switch(type)
     {
-        case lexerlib::TokenType::kLeftBrac: return LEFTBRAC_PREC;
-        case lexerlib::TokenType::kRightBrac: return RIGHTBRAC_PREC;
-        case lexerlib::TokenType::kMultiply: return MULTIPLY_PREC;
-        case lexerlib::TokenType::kDivide: return DIVIDE_PREC;
-        case lexerlib::TokenType::kPlus: return PLUS_PREC;
-        case lexerlib::TokenType::kMinus: return MINUS_PREC;
-        case lexerlib::TokenType::kAssign: return ASSIGN_PREC;
+        case lexerlib::TokenType::kLeftBrac: return PARSERLIB_LEFTBRAC_PREC;
+        case lexerlib::TokenType::kRightBrac: return PARSERLIB_RIGHTBRAC_PREC;
+        case lexerlib::TokenType::kMultiply: return PARSERLIB_MULTIPLY_PREC;
+        case lexerlib::TokenType::kDivide: return PARSERLIB_DIVIDE_PREC;
+        case lexerlib::TokenType::kPlus: return PARSERLIB_PLUS_PREC;
+        case lexerlib::TokenType::kMinus: return PARSERLIB_MINUS_PREC;
+        case lexerlib::TokenType::kAssign: return PARSERLIB_ASSIGN_PREC;
 
-        default: return NOT_OP;
+        default: return PARSERLIB_NOT_OP;
     }
 }
 
