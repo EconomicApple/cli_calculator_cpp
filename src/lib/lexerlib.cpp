@@ -97,6 +97,32 @@ op_precedence(TokenType type)
     }
 }
 
+bool lexerlib::
+operator >(TokenType t1, TokenType t2)
+{
+    return op_precedence(t1) > op_precedence(t2);
+}
+
+bool lexerlib::
+operator >=(TokenType t1, TokenType t2)
+{
+    return op_precedence(t1) >= op_precedence(t2);
+}
+
+
+bool lexerlib::
+operator <(TokenType t1, TokenType t2)
+{
+    return op_precedence(t1) < op_precedence(t2);
+}
+
+bool lexerlib::
+operator <=(TokenType t1, TokenType t2)
+{
+    return op_precedence(t1) <= op_precedence(t2);
+}
+
+
 
 bool lexerlib::
 Token::is_number()

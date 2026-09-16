@@ -87,6 +87,11 @@ namespace lexerlib
     };
 
     double operator *(Token t1, Token t2);
+    bool operator >(TokenType t1, TokenType t2);
+    bool operator >=(TokenType t1, TokenType t2);
+    bool operator <(TokenType t1, TokenType t2);
+    bool operator <=(TokenType t1, TokenType t2);
+    
 
 
     std::vector<Token> tokenise(const std::string &str);
