@@ -132,6 +132,8 @@ void parserlib::
 pop_opstack(std::stack<lexerlib::Token> &opstack,
             std::stack<TreeNode<lexerlib::Token>> &outstack)
 {
+    // Credit https://stackoverflow.com/a/53920543 CC BY-SA 4.0
+    
     assert(!opstack.empty());
 
     TreeNode<lexerlib::Token> n1(opstack.top());

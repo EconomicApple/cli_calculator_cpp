@@ -1,9 +1,28 @@
 #include "calculatorlib.hpp"
 
 double calculatorlib::
-evaluate(const std::string& str)
+evaluate(parserlib::TreeNode<lexerlib::Token> &tree)
 {
-    return 0;
+    if (tree.left == nullptr || tree.right == nullptr && tree.val.is_number())
+    {
+        return std::stod(tree.val.get_literal());
+    }
+
+    switch(tree.val.get_type())
+    {
+        case lexerlib::TokenType::kMultiply:
+            return (evaluate(*(tree.left)) * evaluate(*(tree.right)));
+        case lexerlib::TokenType::kDivide:
+            return (evaluate(*(tree.left)) / evaluate(*(tree.right)));
+        case lexerlib::TokenType::kPlus:
+            return (evaluate(*(tree.left)) + evaluate(*(tree.right)));
+        case lexerlib::TokenType::kMinus:
+            return (evaluate(*(tree.left)) - evaluate(*(tree.right)));
+        default:
+            lexerlib::throw_illegal_token();
+            // pacify compiler
+            return 0;
+    }
 }
 
 double 

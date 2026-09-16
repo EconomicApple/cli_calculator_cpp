@@ -5,7 +5,7 @@
 
 namespace calculatorlib
 {
-    double evaluate(const std::string &tokens);
+    double evaluate(parserlib::TreeNode<lexerlib::Token> &tree);
 
     double operator *(lexerlib::Token t1, lexerlib::Token t2);
     double operator /(lexerlib::Token t1, lexerlib::Token t2);
